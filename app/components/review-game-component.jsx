@@ -18,6 +18,7 @@ export default function ReviewGameComponent({ gameID }) {
         try {
             const response = await fetch(url, options);
             const result = await response.json();
+            const gameObj = result[0];
 
             function formatedDate(publishedDate) {
                 var date = new Date(publishedDate);
@@ -31,19 +32,42 @@ export default function ReviewGameComponent({ gameID }) {
                 return formattedDate;
             }
 
-            return result.map((review) => (
-                <div className={styles.review} id={review.id}>
-                    <h2>{review.title}</h2>
-                    <p className={styles.publish_date}>
-                        Publish date:
-                        <span>{formatedDate(review.publishedDate)}</span>{" "}
-                    </p>
-                    <div className={styles.review_text}>
-                        <p className={styles.score}>Score: {review.score}</p>
-                        <p className={styles.text}>{review.snippet}</p>
+            function averageScore(){
+                var sum = 0;
+                result.forEach(item => {
+                    if(item.score){
+                        sum += item.score;
+                    }
+                });
+
+                console.log(gameObj.ScoreFormat.base);
+                return sum / gameObj.ScoreFormat.base;
+            }
+
+
+            return (
+                <div className={styles.game_container}>
+                    <div className={styles.about_game}>
+                        <h2>{gameObj.game.name}</h2>
+                        <p>Platforms: {gameObj.Platforms.map((platform) => (<span key={platform.id}>{platform.shortName}</span>))}</p>
+                        <p>Released On: {formatedDate(gameObj.publishedDate)}</p>
+                        <p>Meta Score: {averageScore()} <span>Based on: {gameObj.ScoreFormat.base} reviews</span></p>
                     </div>
+
+                    {result.map((review) => (
+                        <div key={review.id} className={styles.reviews_container} >
+                            <p className={styles.score}>{review.score}</p>
+                            <h3>{review.alias}</h3>
+                            <p className={styles.text}>{review.snippet}</p>
+                            <p className={styles.publish_date}>
+                                {formatedDate(review.createdAt)}
+                            </p>
+                        </div>
+                    ))}
+
                 </div>
-            ));
+            );
+            
         } catch (error) {
             console.log(error);
         }
