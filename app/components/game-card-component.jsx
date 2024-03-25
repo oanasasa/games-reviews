@@ -49,9 +49,7 @@ export default function GameCard() {
                     <div className={styles.score_container}>
                         <p className={styles.score}>
                             <span>Score: </span>{" "}
-                            {(
-                                Math.round(game.topCriticScore * 100) / 100
-                            ).toFixed(2)}
+                            {(Math.round(game.topCriticScore/10 * 100) / 100).toFixed(2)}
                         </p>
                         <p>Number of reviews: {game.numReviews}</p>
                     </div>

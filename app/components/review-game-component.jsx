@@ -1,77 +1,30 @@
+
 import styles from "../style_components/games.module.css";
 
-export default function ReviewGameComponent({ gameID }) {
-    async function fetchReviews() {
-        const url =
-            "https://opencritic-api.p.rapidapi.com/reviews/game/" +
-            gameID +
-            "?skip=20";
-        const options = {
-            method: "GET",
-            headers: {
-                "X-RapidAPI-Key":
-                    "4da91e9933msh5d2f8d7c4257517p11120bjsn4c765e8237fb",
-                "X-RapidAPI-Host": "opencritic-api.p.rapidapi.com",
-            },
-        };
+export default function ReviewGameComponent(){
 
-        try {
-            const response = await fetch(url, options);
-            const result = await response.json();
-            const gameObj = result[0];
+    function checkScore(){
+        var score = document.getElementById("score").textContent();
 
-            function formatedDate(publishedDate) {
-                var date = new Date(publishedDate);
-
-                var formattedDate = date.toLocaleDateString("en-US", {
-                    year: "numeric",
-                    month: "long",
-                    day: "numeric",
-                });
-
-                return formattedDate;
-            }
-
-            function averageScore(){
-                var sum = 0;
-                result.forEach(item => {
-                    if(item.score){
-                        sum += item.score;
-                    }
-                });
-
-                console.log(gameObj.ScoreFormat.base);
-                return sum / gameObj.ScoreFormat.base;
-            }
-
-
-            return (
-                <div className={styles.game_container}>
-                    <div className={styles.about_game}>
-                        <h2>{gameObj.game.name}</h2>
-                        <p>Platforms: {gameObj.Platforms.map((platform) => (<span key={platform.id}>{platform.shortName}</span>))}</p>
-                        <p>Released On: {formatedDate(gameObj.publishedDate)}</p>
-                        <p>Meta Score: {averageScore()} <span>Based on: {gameObj.ScoreFormat.base} reviews</span></p>
-                    </div>
-
-                    {result.map((review) => (
-                        <div key={review.id} className={styles.reviews_container} >
-                            <p className={styles.score}>{review.score}</p>
-                            <h3>{review.alias}</h3>
-                            <p className={styles.text}>{review.snippet}</p>
-                            <p className={styles.publish_date}>
-                                {formatedDate(review.createdAt)}
-                            </p>
-                        </div>
-                    ))}
-
-                </div>
-            );
-            
-        } catch (error) {
-            console.log(error);
+        if(!isNaN(string) && score!=0 && (score <= 10) ){
+            return score;
         }
     }
 
-    return fetchReviews();
-}
+    return(
+    <div className={styles.review_form_container}>
+        <p>ALl fileds that are marked with * are mendatory.</p>
+        <form className={styles.review_form} action="submit">
+            <div className={styles.field_container}>
+                <label for="score">Your review score*<span className={styles.info_note}>Write a number from 1 to 10</span></label>
+                <input name="score_number" type="text" id="score" />
+            </div>
+            <div className={styles.field_container}>
+                <label for="score">Your review text*</label>
+                <textarea name="review_message" id="reviewMessage"></textarea>
+            </div>
+        </form>
+
+
+    </div>);
+}       
