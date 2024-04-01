@@ -1,5 +1,4 @@
-import styles from "../style_components/games.module.css";
-import FormReviewGame from "./form-review-game";
+import styles from "../style_components/global.module.css";
 
 export default function GameComponent({ gameID }) {
     async function fetchReviews() {
@@ -49,10 +48,10 @@ export default function GameComponent({ gameID }) {
             }
 
             return (
-                <div className={styles.game_section}>
-                    <div className={styles.game_container}>
+                <div className="relative py-24 max-w-screen-lg m-auto">
+                    <div className="mb-10">
                         <div className={styles.about_game}>
-                            <h2>{gameObj.game.name}</h2>
+                            <h2 className="text-3xl font-bold mb-5">{gameObj.game.name}</h2>
                             <p>
                                 Platforms:{" "}
                                 {gameObj.Platforms.map((platform) => (
@@ -72,23 +71,21 @@ export default function GameComponent({ gameID }) {
                                 </span>
                             </p>
                         </div>
-                        <div className={styles.form_container}>
-                            <FormReviewGame />
-                        </div>
                     </div>
-
-                    {result.map((review) => (
-                        <div
-                            key={review.id}
-                            className={styles.reviews_container}>
-                            <p className={styles.score}>{review.score}</p>
-                            <h3>{review.alias}</h3>
-                            <p className={styles.text}>{review.snippet}</p>
-                            <p className={styles.publish_date}>
-                                {formatedDate(review.createdAt)}
-                            </p>
-                        </div>
-                    ))}
+                    <div className="grid grid-cols-2 gap-y-10 gap-x-5">
+                        {result.map((review) => (
+                            <div
+                                key={review.id}
+                                className={styles.reviews_container}>
+                                    <p className="text-xl font-bold text-accent bg-white p-2.5 inline-block mb-4 rounded-xl hover:scale-125 hover:cursor-auto ease-in duration-200 ">{review.score}</p>
+                                    <h3>{review.alias}</h3>
+                                    <p className={styles.text}>{review.snippet}</p>
+                                    <p className={styles.publish_date}>
+                                        {formatedDate(review.createdAt)}
+                                    </p>
+                            </div>
+                        ))}
+                    </div>
                 </div>
             );
         } catch (error) {

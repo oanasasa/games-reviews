@@ -11,8 +11,7 @@ export default function Header() {
                     </Link>
                 </div>
                 <nav className={styles.nav_container}>
-                    <Link href="/reviews">Reviews</Link>
-                    <Link href="/about">About</Link>
+                    <Link className="menu-item" href="/reviews">Reviews</Link>
                 </nav>
             </div>
         </header>

@@ -1,4 +1,4 @@
-import styles from "../style_components/games.module.css";
+import styles from "../style_components/global.module.css";
 
 export default function GameCard() {
     async function fetchGames() {

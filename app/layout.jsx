@@ -8,7 +8,7 @@ export default function RootLayout({ children }) {
             <head>
                 <title>Next Reviews</title>
             </head>
-            <body className="body">
+            <body className="font-primary bg-dark *:text-primary *:w-full">
                 <Header />
                 {children}
                 <Footer />
